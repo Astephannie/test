@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>301 redirect</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<body>
+		<h1>Test 301 redirect</h1>
+		<div id="blog"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.ajax( {
+					url: 'https://hitmaker.rs/kyligence/wp-json/wp/v2/posts',
+					success: function (data, textStatus, request) {
+
+						// for each item
+						$.each( data, function( count, item ) {
+							var slug = item.slug;
+							var title = item.title.rendered;
+							var excerpt = item.excerpt.rendered;
+							var date = moment(item.date).format('MM-DD-YYYY') ;
+
+							$('#blog').append('<div class="list-post"><div class="line-separation"></div><h2 class="main-subtitle"><a href="blog-post.html?post=' + slug + '">' 
+												+ title + '</a></h2><div class="row"><div class="col-md-12"><div>'+ excerpt +
+												'</div></div></div><div class="row columns"><div class="col text-left"><p class="gray-content">'
+												+ date +'</p></div><div class="col text-right"><a href="blog-post.html?post=' 
+												+ slug +'" class="read-more">Read more ></a></div></div></div>');
+						});
+					},
+					error: function (data, textStatus, request) {
+						console.log(data.responseText);
+					},
+					cache: false
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			window.location.replace("http://astephannie.github.io/2017/10/18/kyligence-robot-kybot-release-note");
+		</script>
+	</body>
+</html>
